@@ -2,14 +2,32 @@ document.querySelector("form").addEventListener("submit",(event)=>{
     event.preventDefault()
 })
 
+let editGlobalName = null;
+let editGlobalTitle = null;
+
 const handleSubmit=()=>{
-    // adding name
     const name = document.getElementById("name").value;
+    const title = document.getElementById("title").value;
+
+
+    if(editGlobalName && editGlobalTitle){
+        editGlobalName.textContent = name
+        editGlobalTitle.textContent = title
+
+        document.getElementById("name").value = "";
+        document.getElementById("title").value = "";
+        editGlobalName = null;
+        editGlobalTitle = null;
+
+    } else{
+
+    // adding name
+    
     const newName = document.createElement("div")
     newName.textContent = name;
 
     //adding title
-    const title = document.getElementById("title").value;
+    
 
     const newTitle = document.createElement("div")
     newTitle.textContent = title;
@@ -44,10 +62,19 @@ const handleSubmit=()=>{
         createImage.remove()
         newName.remove()
         newTitle.remove()
+        editImage.remove()
     })
     //edit function
     editImage.addEventListener("click",()=>{
-        
+      console.log(newTitle.innerHTML)
+
+      document.getElementById("title").value = newTitle.innerHTML
+      document.getElementById("name").value = newName.innerHTML
+
+       editGlobalName = newName;
+       editGlobalTitle = newTitle;
     })
+
+}
 }
 
