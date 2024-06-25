@@ -40,7 +40,7 @@ const handleSubmit=()=>{
     document.getElementById("title").value = ""
 
     //adding image
-
+    const imageDiv = document.createElement("div")
     const newImage = document.getElementById("image")
     //delete img
     const createImage = document.createElement("img")
@@ -50,9 +50,12 @@ const handleSubmit=()=>{
     const editImage = document.createElement("img")
     editImage.src = "edit.svg"
     editImage.setAttribute("class" ,"cursor-pointer")
+    imageDiv.setAttribute("class","flex")
     //append image
-    name && title ? newImage.appendChild(createImage) : null
-    name && title ? newImage.appendChild(editImage) : null
+    name && title ? imageDiv.appendChild(createImage) : null
+    name && title ? imageDiv.appendChild(editImage) : null
+    newImage.appendChild(imageDiv)
+    
 
     // NewImage.src = "delete.svg";
     // NewImage.appendChild(image)
