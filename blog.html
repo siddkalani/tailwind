@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>boldo</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="h-screen w-screen flex justify-center items-center">
+        <div class="h-full w-[90%] gap-[3rem] flex flex-col items-center md:mt-5 md:mb-0 mt-10 overflow-auto">
+            <!-- navbar -->
+            <div class="flex justify-between w-full">
+                <div class="flex gap-x-1 items-center">
+                    <img class="" src="icon.svg" alt="">
+                    <h1 class="text-[#0A2640] font-[manrope] text-boldo font-bold">Boldo</h1>
+                </div>
+                <div class="md:flex hidden items-center">
+                    <nav class="cursor-pointer gap-x-10 flex font-[Open Sans] items-center">
+                        <ul class="md:flex hidden text-[#777777] gap-x-10 font-semibold">
+                            <li class="hover:text-[#0A2640]">Blog</li>
+                            <li class="hover:text-[#0A2640]">Services</li>
+                            <li class="hover:text-[#0A2640]">About</li>
+                        </ul>
+                        <button
+                            class="flex w-[128px] hover:bg-[#0A2640] duration-300 hover:text-[white] h-[40px] items-center justify-center font-bold border-2 rounded-[1.5rem] border-[#0A2640] text-[#0A2640]">Log
+                            in</button>
+                    </nav>
+                </div>
+            </div>
+            <!-- content -->
+            <div class="md:flex md:flex-column flex flex-col gap-y-8 md:gap-y-4 justify-between w-full">
+                <!-- content navbar -->
+                <div class="flex justify-between w-full">
+                    <div>
+                        <p class="text-[#777777] text-[16px] font-[open sans]">Blog</p>
+                        <h1 class="text-[48px] font-[manrope]">Thoughts and words </h1>
+                    </div>
+                    <button
+                        class="flex w-[128px] hover:bg-[#0A2640] duration-300 hover:text-[white] h-[40px] items-center justify-center font-bold border-2 rounded-[1.5rem] border-[#0A2640] text-[#0A2640]">Add
+                        Blog</button>
+                </div>
+                <!-- content-main -->
+                <div class="flex">
+                    <div class="flex flex-col items-center text-left w-full">
+                        <img src="office-man.svg" alt="">
+                        <div class="flex justify-between">
+                            <form action="" class="form">
+                                <label for="name">Name:</label>
+                                <input type="text" id="name" class="border-solid border-black border-2">
+                                <label for="title">Title:</label>
+                                <input type="text" id="title" class="border-solid border-black border-2">
+                                <input type="submit" onclick="handleSubmit()" value="submit" class="cursor-pointer bg-slate-400">
+                            </form>
+                        </div>
+                        <div class="note-section flex w-3/5 justify-between">
+                            <strong>
+                                Name: <p id="demo"></p>
+                            </strong>
+                            <strong>
+                                Title: <p id="demo2"></p>
+                            </strong>
+                            <strong>
+                                Actions: <p id="image" class="flex"></p>
+
+                            </strong>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- footer -->
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
