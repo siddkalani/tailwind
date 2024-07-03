@@ -1,83 +1,114 @@
-document.querySelector("form").addEventListener("submit",(event)=>{
-    event.preventDefault()
-})
+let editGlobalId = null;
 
-let editGlobalName = null;
-let editGlobalTitle = null;
+const modal = document.getElementById("modal");
 
-const handleSubmit=()=>{
+const handleSubmit = () => {
     const name = document.getElementById("name").value;
     const title = document.getElementById("title").value;
+    const date = document.getElementById("date").value;
 
+    if (!name || !title || !date) {
+        alert("Please fill out all fields.");
+        return;
+    }
 
-    if(editGlobalName && editGlobalTitle){
-        editGlobalName.textContent = name
-        editGlobalTitle.textContent = title
+    modal.classList.add("hidden");
 
-        document.getElementById("name").value = "";
-        document.getElementById("title").value = "";
-        editGlobalName = null;
-        editGlobalTitle = null;
+    const entry = { id: Date.now(), name, title, date };
 
-    } else{
+    if (editGlobalId) {
+        updateEntry(editGlobalId, entry);
+        editGlobalId = null;
+    } else {
+        saveEntry(entry);
+    }
 
-    // adding name
-    
-    const newName = document.createElement("div")
-    newName.textContent = name;
+    document.getElementById("name").value = "";
+    document.getElementById("title").value = "";
+    document.getElementById("date").value = "";
 
-    //adding title
-    
+    renderEntries();
+};
 
-    const newTitle = document.createElement("div")
-    newTitle.textContent = title;
+const saveEntry = (entry) => {
+    const entries = JSON.parse(localStorage.getItem("entries")) || [];
+    entries.push(entry);
+    localStorage.setItem("entries", JSON.stringify(entries));
+};
 
-    // require name and title with clear value on submit
-    title ? document.getElementById("demo").appendChild(newName):alert("Please enter title")
-    document.getElementById("name").value = ""
+const updateEntry = (id, updatedEntry) => {
+    const entries = JSON.parse(localStorage.getItem("entries")) || [];
+    const updatedEntries = entries.map(entry => entry.id === id ? updatedEntry : entry);
+    localStorage.setItem("entries", JSON.stringify(updatedEntries));
+};
 
-    name?document.getElementById("demo2").appendChild(newTitle):alert("Please enter name")
-    document.getElementById("title").value = ""
+const deleteEntry = (id) => {
+    const entries = JSON.parse(localStorage.getItem("entries")) || [];
+    const updatedEntries = entries.filter(entry => entry.id !== id);
+    localStorage.setItem("entries", JSON.stringify(updatedEntries));
+};
 
-    //adding image
-    const imageDiv = document.createElement("div")
-    const newImage = document.getElementById("image")
-    //delete img
-    const createImage = document.createElement("img")
-    createImage.src = "delete.svg"
-    createImage.setAttribute("class" ,"cursor-pointer")
-    //edit image
-    const editImage = document.createElement("img")
-    editImage.src = "edit.svg"
-    editImage.setAttribute("class" ,"cursor-pointer")
-    imageDiv.setAttribute("class","flex")
-    //append image
-    name && title ? imageDiv.appendChild(createImage) : null
-    name && title ? imageDiv.appendChild(editImage) : null
-    newImage.appendChild(imageDiv)
-    
+const renderEntries = () => {
+    const blogList = document.getElementById("blogList");
+    blogList.innerHTML = "";
 
-    // NewImage.src = "delete.svg";
-    // NewImage.appendChild(image)
+    const entries = JSON.parse(localStorage.getItem("entries")) || [];
+    entries.forEach(entry => {
+        const newSection = document.createElement("section");
+        newSection.classList.add("bg-white", "p-4", "rounded-md", "shadow-md","h-3/4","w-3/4","overflow-auto");
 
-    //delete function
-    createImage.addEventListener("click",()=>{
-        createImage.remove()
-        newName.remove()
-        newTitle.remove()
-        editImage.remove()
-    })
-    //edit function
-    editImage.addEventListener("click",()=>{
-      console.log(newTitle.innerHTML)
+        const newName = document.createElement("div");
+        newName.textContent = entry.name;
 
-      document.getElementById("title").value = newTitle.innerHTML
-      document.getElementById("name").value = newName.innerHTML
+        const newTitle = document.createElement("div");
+        newTitle.textContent = entry.title;
 
-       editGlobalName = newName;
-       editGlobalTitle = newTitle;
-    })
+        const newDate = document.createElement("div");
+        newDate.textContent = entry.date;
 
+        newSection.appendChild(newName);
+        newSection.appendChild(newTitle);
+        newSection.appendChild(newDate);
+
+        newName.classList.add("overflow-auto","w-3/4");
+        newTitle.classList.add("overflow-auto","w-3/4");
+
+        const imageDiv = document.createElement("div");
+        imageDiv.classList.add("flex", "gap-2");
+
+        const deleteImage = document.createElement("img");
+        deleteImage.src = "delete.svg";
+        deleteImage.classList.add("cursor-pointer");
+        imageDiv.appendChild(deleteImage);
+
+        const editImage = document.createElement("img");
+        editImage.src = "edit.svg";
+        editImage.classList.add("cursor-pointer");
+        imageDiv.appendChild(editImage);
+
+        newSection.appendChild(imageDiv);
+
+        blogList.appendChild(newSection);
+
+        deleteImage.addEventListener("click", () => {
+            deleteEntry(entry.id);
+            renderEntries();
+        });
+        editImage.addEventListener("click", () => {
+            modal.classList.remove("hidden");
+
+            document.getElementById("name").value = entry.name;
+            document.getElementById("title").value = entry.title;
+            document.getElementById("date").value = entry.date;
+
+            editGlobalId = entry.id;
+        });
+    });
+};
+
+document.addEventListener("DOMContentLoaded", renderEntries);
+
+function handleClick() {
+    modal.classList.remove("hidden");
+    document.querySelector("strong").classList.remove("hidden");
 }
-}
-
